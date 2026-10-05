@@ -7,9 +7,11 @@ freedom = 100
 
 
 class Boid():
-    def __init__(self,position,velocity,tag):
+    def __init__(self,position,velocity,tag,avoidEdges = True):
         self.tag = tag
         self.radius = 5
+
+        self.avoidEdges = avoidEdges
         
         self.position = vector(position)
         self.velocity = vector(velocity)
@@ -61,11 +63,14 @@ class Boid():
         alignment = self.align(boids)
         cohesion = self.cohere(boids)
         separation = self.separate(boids)
-        avoid = self.avoid()
+
+        if self.avoidEdges:
+            avoid = self.avoid()
+            self.acceleration += avoid * 10
+
         self.acceleration += alignment * self.alignWeight
         self.acceleration += cohesion * self.cohereWeight
         self.acceleration += separation * self.separateWeight
-        self.acceleration += avoid * 10
         if raylib.is_mouse_button_down(raylib.MOUSE_BUTTON_LEFT) == True:
             mouseX = raylib.get_mouse_x()
             mouseY = raylib.get_mouse_y()

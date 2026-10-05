@@ -26,7 +26,7 @@ for i in range(boidNumber):
         tag = 2
     else:
         tag = 3
-    boids.append(Boid(position,velocity,tag))
+    boids.append(Boid(position,velocity,tag,avoidEdges = False))
 
 
 def update(boids,deltaTime):
